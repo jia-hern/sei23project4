@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var itemSchema = new mongoose.Schema({
 	name        : String,
 	description : String,
+	picture     : String,
 	quantity    : Number,
 	price       : Number
 });
