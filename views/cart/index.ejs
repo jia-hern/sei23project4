@@ -1,0 +1,51 @@
+<div class="container">
+    <% if (items.length == 0){%>
+    There is no items in the shopping cart
+    <%} else {%>
+    <table class="table">
+        <tr>
+            <td>
+                Items
+                <%if (items.length > 0) {%>
+                (<%=items.length%>)
+                <%}%>
+            </td>
+            <td>Quantity</td>
+            <td>Price</td>
+            <td>Subtotal</td>
+        </tr>
+        <% items.forEach(item => { %>
+        <tr>
+            <td>
+                <%= item.item.name %></td>
+            <td>
+                <%= item.quantity %></td>
+            <td>
+                <%= item.item.price %></td>
+            <td>
+                <%= item.item.price * item.quantity %></td>
+        </tr> <% }) %>
+        <tr>
+            <td colspan="4">
+                Total Price</td>
+            <!-- <td>
+            </td>
+            <td>
+            </td> -->
+            <td>
+                <%= total %></td>
+        </tr>
+    </table>
+    <!-- <div>
+        <tr>
+            <span>Total Price</span>
+            <span>
+                <%= total %>
+            </span>
+        </tr>
+    </div> -->
+    <form action="/cart/checkout" method="post">
+        <button type="submit">Checkout</button>
+    </form>
+</div>
+<% } %>

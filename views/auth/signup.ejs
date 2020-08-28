@@ -1,0 +1,44 @@
+<div class="container">
+    <form action="/auth/signup" method="POST">
+      <div class="row mb-3">
+        <div class="col-6">
+          <input name="firstname" class="form-control" placeholder="First name: e.g.John/Jane" />
+        </div>
+        <div class="col-6">
+          <input name="lastname" class="form-control" placeholder="Last name: e.g. Doe" />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12">
+          <input name="age" class="form-control" placeholder="Age: e.g. 20" type="number" />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12">
+          <label>Address</label>
+          <input
+            name="adress" 
+            class="form-control"
+            placeholder="20"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-6">
+          <label>Phone</label>
+          <input name="phone" class="form-control" placeholder="0805****" />
+        </div>
+        <div class="col-6">
+          <label>Password</label>
+          <input
+            name="password"
+            type="password"
+            class="form-control"
+            placeholder="*******"
+          />
+        </div>
+      </div>
+      <button class="btn btn-primary">Sign Up</button>
+    </form>
+  </div>

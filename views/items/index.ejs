@@ -1,0 +1,33 @@
+<% if (items.length == 0){%>
+There is no items in the shop?!
+<%} else {%>
+
+<div class="container">
+
+    <table>
+        <tr>
+            <td>Items</td>
+            <td>Quantity</td>
+            <td>Price</td>
+        </tr>
+
+        <% items.forEach(item =>{ %>
+        <tr>
+            <td><%= item.name %></td>
+            <td><%= item.quantity %></td>
+            <td><%= item.price %></td>
+            <td>
+                <form action="/cart/<%= item._id %>/add" method="POST">
+                    <input type="hidden" value="<%= item._id %>">
+                    <button type="submit">Add to cart</button>
+                </form>
+            </td>
+        </tr>
+        <%})%>
+    </table>
+
+
+</div>
+
+
+<% } %>
