@@ -2,7 +2,7 @@
 
 ## Ecommerce
 
-App is hosted here: https://sei23sgproject2.herokuapp.com/items
+App is hosted here: 
 
 ## Project 4 Objectives
 Create an ecommerce app with react as the frontend and node as the backend. This is an build on from my project 2 which can be viewed here: https://github.com/jia-hern/sei23project2
