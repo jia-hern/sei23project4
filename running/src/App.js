@@ -90,6 +90,51 @@ class App extends Component {
 				});
 			});
 	};
+	addItem = (item) => {
+		let token = localStorage.getItem('token');
+		if (token) {
+			Axios.post(`${URL}/cart/${item._id}/add`, {
+				headers : {
+					'x-auth-token' : token
+				}
+			})
+				.then((res) => {
+					console.log(item);
+					let tempState = { ...this.state }; //copy of state
+					tempState.cart.push(item);
+					console.log(tempState);
+					// this.state.cart.push(item);
+					//set state
+					this.setState(tempState);
+					console.log(this.state);
+				})
+				.catch((err) => {
+					console.log(err.response.data);
+					console.log(err);
+				});
+		} else {
+			console.log('no token added');
+		}
+	};
+
+	fetchItems = () => {
+		let token = localStorage.getItem('token');
+		Axios.get(`${URL}/items`, {
+			// as we saved the token under the header
+			headers : {
+				'x-auth-token' : token
+			}
+		})
+			.then((res) => {
+				// console.log(res.data);
+				this.setState({ items: res.data.items });
+				this.setState({ cart: res.data.cart });
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+	updateCart = () => {};
 	componentDidMount() {
 		// to tell the browser to remain logged in
 		let token = localStorage.getItem('token');
@@ -119,11 +164,26 @@ class App extends Component {
 						{/* if no need to pass data, can use component */}
 						{/* <Route exact path="/" component={Home} /> */}
 						{/* if need to pass data e.g.props, use render */}
-						<Route path="/" exact render={() => <Home items={this.state.items} />} />
+						<Route
+							path="/"
+							exact
+							render={() => (
+								<Home
+									items={this.state.items}
+									cart={this.state.cart}
+									addItem={this.addItem}
+									fetchItems={this.fetchItems}
+								/>
+							)}
+						/>
 						{/*tbc if shopper and customer are using the same pages*/}
 						{/* exact so that item/add wont confuse with the item/:id  */}
 						<Route path="/item/add" exact render={() => <AddItem />} />
-						<Route exact path="/cart" render={() => <Cart cart={this.state.cart} />} />
+						<Route
+							exact
+							path="/cart"
+							render={() => <Cart cart={this.state.cart} fetchItems={this.fetchItems} />}
+						/>
 						{/* <PrivateRoute exact path="/cart" isAuth={isAuth} render={() => <Cart />} /> */}
 						<Route exact path="/order" render={() => <Order orders={this.state.orders} />} />
 						{/* <PrivateRoute exact path="/order" isAuth={isAuth} render={() => <Order />} /> */}

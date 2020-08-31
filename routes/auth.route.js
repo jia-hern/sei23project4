@@ -29,7 +29,7 @@ router.post('/auth/register', async (req, res) => {
 			}
 		};
 		console.log(payload);
-		jwt.sign(payload, 'registertoken', { expiresIn: 36000000 }, (err, token) => {
+		jwt.sign(payload, 'seifewdaystogo', { expiresIn: 36000000 }, (err, token) => {
 			if (err) throw err; //same as saying if error, go to catch
 			res.status(200).json({ token });
 		});

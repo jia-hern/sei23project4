@@ -9,7 +9,7 @@ const passport = require('./config/passportConfig');
 const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo')(session);
-const checkUser = require('./config/loginBlocker');
+const checkUser = require('./config/config');
 
 mongoose.Promise = Promise;
 mongoose
@@ -62,8 +62,8 @@ app.use(function(request, response, next) {
 app.use(cors()); //allows all requests from outside servers or apps
 
 app.use('/items', require('./routes/items.route'));
-app.use('/cart', require('./routes/cart.route'));
-// app.use('/cart', checkUser, require('./routes/cart.route'));
+// app.use('/cart', require('./routes/cart.route'));
+app.use('/cart', checkUser, require('./routes/cart.route'));
 app.use('/orders', require('./routes/orders.route'));
 // app.use('/orders', checkUser, require('./routes/orders.route'));
 app.use('/', require('./routes/auth.route'));

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
 	//want tthe user to hide the token in the header instead of showing it in the url
 	const token = req.header('x-auth-token');
-
+	console.log('token : ', token);
 	if (!token) {
 		//401 means not authorized to access
 		return res.status(401).json({
@@ -23,6 +23,7 @@ module.exports = (req, res, next) => {
 		req.user = decoded.user;
 		next();
 	} catch (error) {
+		console.log(error);
 		return res.status(401).json({
 			message : 'token is not valid!'
 		});
