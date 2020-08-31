@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Container, Form, Button } from 'react-bootstrap';
-import Axios from 'axios';
 
-const URL = process.env.REACT_APP_URL;
+// const URL = process.env.REACT_APP_URL;
 export default class Register extends Component {
 	state = {
 		firstname : '',

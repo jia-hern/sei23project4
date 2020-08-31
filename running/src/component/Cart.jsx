@@ -1,53 +1,43 @@
 import React, { Component } from 'react';
 import { Container, Row, Card, Col, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import Axios from 'axios';
-// import Item from '../component/items/Item';
 
 const URL = process.env.REACT_APP_URL;
-export default class Home extends Component {
+export default class Cart extends Component {
 	state = {
-		items : []
+		// cart : []
 	};
 	fetchItems = () => {
 		let token = localStorage.getItem('token');
-		Axios.get(`${URL}/items`, {
+		Axios.get(`${URL}/cart`, {
 			// as we saved the token under the header
 			headers : {
 				'x-auth-token' : token
 			}
 		})
 			.then((res) => {
-				// console.log(res.data);
-				this.setState({ items: res.data.items });
+				console.log(res.data);
+				this.setState({ cart: res.data.cart });
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	};
-	deleteItem = (e) => {
-		console.log(e.target.id);
-		Axios.delete(`${URL}/items/${e.target.id}`).then((res) => {
-			this.fetchItems();
-		});
-	};
-	// console.log(this.props.items);
-	componentDidMount() {
-		this.fetchItems();
-	}
 	render() {
+		console.log(this.props.cart);
 		return (
 			<div>
-				<h1>Home</h1>
+				<h1>Cart</h1>
 				<Container fluid>
 					<Row>
-						{this.state.items.map((item) => (
+						{this.props.cart.map((item) => (
 							<Col key={item._id} md="3" className="mb-3">
 								<Card>
 									<Card.Img variant="top" src={item.picture} />
 									<Card.Body>
 										{item.name}
 										<div>
+											{/* <Link to={`/item/${item._id}`}>See Item</Link> */}
 											<Button onClick={this.deleteItem} variant="danger" id={item._id}>
 												Delete
 											</Button>

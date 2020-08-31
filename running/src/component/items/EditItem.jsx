@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Row } from 'react-bootstrap';
-import Axios from 'axios';
-const URL = process.env.REACT_APP_URL;
+// import Axios from 'axios';
+// const URL = process.env.REACT_APP_URL;
 
 export default class EditItem extends Component {
 	state = {
@@ -22,7 +22,7 @@ export default class EditItem extends Component {
 	};
 
 	render() {
-		let { name, picture, text } = this.state;
+		let { name, picture, description, quantity, price } = this.state;
 		console.log(this.props);
 		return (
 			<div>

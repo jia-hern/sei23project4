@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -29,7 +30,10 @@ mongoose
 	});
 
 app.use(express.static('public'));
+//to receive form data
 app.use(express.urlencoded({ extended: true }));
+//to receive json data
+app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
@@ -55,14 +59,17 @@ app.use(function(request, response, next) {
 	response.locals.currentUser = request.user;
 	next();
 });
+app.use(cors()); //allows all requests from outside servers or apps
 
 app.use('/items', require('./routes/items.route'));
-app.use('/cart', checkUser, require('./routes/cart.route'));
-app.use('/orders', checkUser, require('./routes/orders.route'));
+app.use('/cart', require('./routes/cart.route'));
+// app.use('/cart', checkUser, require('./routes/cart.route'));
+app.use('/orders', require('./routes/orders.route'));
+// app.use('/orders', checkUser, require('./routes/orders.route'));
 app.use('/', require('./routes/auth.route'));
-app.get('/', (req, res) => {
-	res.redirect('/items');
-});
+// app.get('/', (req, res) => {
+// 	res.redirect('/items');
+// });
 app.listen(process.env.PORT, () => {
 	console.log(`running on PORT ${process.env.PORT}`);
 });

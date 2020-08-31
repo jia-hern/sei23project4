@@ -53,7 +53,7 @@ export default class Item extends Component {
 							<img src={item.picture} width="400" />
 						</div>
 						<div>
-							Price: {item.price}Quantity: {item.quantity}{' '}
+							Price: {item.price}Quantity: {item.quantity}
 						</div>
 						<Button onClick={this.showEdit}>Edit Item</Button>
 						{edit && <EditItem item={item} editItem={this.editItems} />}

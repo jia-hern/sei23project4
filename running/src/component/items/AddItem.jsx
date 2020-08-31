@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button, Row } from 'react-bootstrap';
 import Axios from 'axios';
 //  allow us to redirect to another page
-import { withRouter, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 const URL = process.env.REACT_APP_URL;
 
 class AddItem extends Component {
@@ -45,19 +45,34 @@ class AddItem extends Component {
 				<h1>Add Item</h1>
 				<div>
 					<Row>
-						<Form.Control name="name" value={name} onChange={this.changeHandler} />
+						<Form.Control name="name" placeholder="name" value={name} onChange={this.changeHandler} />
 					</Row>
 					<Row>
-						<Form.Control name="description" value={description} onChange={this.changeHandler} />
+						<Form.Control
+							name="description"
+							placeholder="description"
+							value={description}
+							onChange={this.changeHandler}
+						/>
 					</Row>
 					<Row>
-						<Form.Control name="picture" value={picture} onChange={this.changeHandler} />
+						<Form.Control
+							name="picture"
+							placeholder="picture"
+							value={picture}
+							onChange={this.changeHandler}
+						/>
 					</Row>
 					<Row>
-						<Form.Control name="quantity" value={quantity} onChange={this.changeHandler} />
+						<Form.Control
+							name="quantity"
+							placeholder="quantity"
+							value={quantity}
+							onChange={this.changeHandler}
+						/>
 					</Row>
 					<Row>
-						<Form.Control name="price" value={price} onChange={this.changeHandler} />
+						<Form.Control name="price" placeholder="price" value={price} onChange={this.changeHandler} />
 					</Row>
 					<Button onClick={this.submitHandler}>Submit</Button>
 				</div>

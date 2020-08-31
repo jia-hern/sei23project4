@@ -1,51 +1,91 @@
 const router = require('express').Router();
-const passport = require('../config/passportConfig');
-const isLoggedIn = require('../config/loginBlocker');
 const User = require('../models/user.model');
-
-router.get('/auth/signup', (request, response) => {
-	response.render('auth/signup');
-});
-
-router.post('/auth/signup', (request, response) => {
-	let user = new User(request.body);
-
-	console.log(user);
-	user
-		.save()
-		.then(() => {
-			passport.authenticate('local', {
-				successRedirect : '/', //after login success
-				successFlash    : 'You have logged In!'
-			})(request, response);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-});
-
-router.get('/auth/signin', (request, response) => {
-	response.render('auth/signin');
-});
-
-// Login Route
-router.post('/auth/signin', function(req, res, next) {
-	//using passport as part of the code instead of middleware( using the code prewritten as it is)
-	passport.authenticate('local', function(err, user, info) {
-		if (err) {
-			return next(err);
-		}
-		if (!user) {
-			return res.redirect('/auth/signin');
-		}
-		req.logIn(user, function(err) {
-			if (err) {
-				return next(err);
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const checkToken = require('../config/config');
+/*
+ @route GET api/auth/register
+ @desc register user
+ @access public
+ */
+// router.post('/register', async (req, res) => {
+router.post('/auth/register', async (req, res) => {
+	let { firstname, lastname, age, address, phone, password } = req.body;
+	console.log(req.body);
+	try {
+		console.log(req.body);
+		let user = new User({ firstname, lastname, age, address, phone });
+		// has password with 10 salt rounds before saving
+		let hashPassword = await bcrypt.hash(password, 10);
+		user.password = hashPassword;
+		//save user
+		await user.save();
+		//set 201 as status as it was succes and new data was added
+		// res.status(201).json({ messsage: 'user registered successfully!' });
+		const payload = {
+			//create a token
+			user : {
+				id : user._id
 			}
-			res.cookie('role', user.isSeller, { maxAge: 36000 });
-			return res.redirect('/');
+		};
+		console.log(payload);
+		jwt.sign(payload, 'registertoken', { expiresIn: 36000000 }, (err, token) => {
+			if (err) throw err; //same as saying if error, go to catch
+			res.status(200).json({ token });
 		});
-	})(req, res, next);
+	} catch (error) {
+		console.log(error);
+		// 500 is internal server error
+		res.status(500).json({ messsage: 'oh no!!! user was not registered' });
+	}
+});
+/*
+ @route GET api/auth/login
+ @desc login user
+ @access public
+ */
+// router.post('/login', async (req, res) => {
+router.post('/auth/login', async (req, res) => {
+	let { phone, password } = req.body;
+	// console.log(req.body);
+	try {
+		let user = await User.findOne({ phone });
+		if (!user) {
+			return res.status(400).json({ messsage: 'user not found!' });
+		}
+		//compare keyed in password with password in db
+		const isMatch = await bcrypt.compare(password, user.password);
+		if (!isMatch) {
+			return res.status(400).json({ messsage: 'Aiyo!! you tryna hack me wah?' });
+		}
+		const payload = {
+			//    send this back to user
+			// dont send sensitive info here
+			user : {
+				id : user._id
+			}
+		};
+		jwt.sign(payload, 'seifewdaystogo', { expiresIn: 36000000 }, (err, token) => {
+			if (err) throw err; //same as saying if error, go to catch
+			res.status(200).json({ token });
+			console.log(token);
+		});
+	} catch (error) {
+		res.status(500).json({ message: 'hmm... dunno what happended man!' });
+	}
+});
+// router.get('/user', checkToken, async (req, res) => {
+router.get('/auth/user', checkToken, async (req, res) => {
+	try {
+		let user = await User.findById(req.user.id, '-password');
+		res.status(200).json({
+			user
+		});
+	} catch (error) {
+		res.status(500).json({
+			message : 'something is wrong!'
+		});
+	}
 });
 
 //--- Logout Route

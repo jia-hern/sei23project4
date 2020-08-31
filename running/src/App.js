@@ -8,8 +8,8 @@ import { Alert } from 'react-bootstrap';
 import Navigation from './component/Navigation';
 import Home from './component/Home';
 import AddItem from './component/items/AddItem';
-import Cart from './component/items/Cart';
-import Order from './component/items/Order';
+import Cart from './component/Cart';
+import Order from './component/Order';
 import Register from './component/auth/Register';
 import Login from './component/auth/Login';
 
@@ -18,6 +18,8 @@ class App extends Component {
 	mounted = true;
 	state = {
 		items        : [],
+		cart         : [],
+		orders       : [],
 		errorMessage : null,
 		isAuth       : false,
 		user         : null
@@ -27,6 +29,8 @@ class App extends Component {
 		console.log('i logged out');
 		this.setState({
 			items        : [],
+			cart         : [],
+			orders       : [],
 			errorMessage : null,
 			isAuth       : false,
 			user         : null
@@ -34,7 +38,7 @@ class App extends Component {
 		localStorage.removeItem('token');
 	};
 	getUserProfile = (token) => {
-		Axios.post(`${URL}/auth/user`, {
+		Axios.get(`${URL}/auth/user`, {
 			headers : {
 				'x-auth-token' : token
 			}
@@ -68,6 +72,7 @@ class App extends Component {
 	};
 	registerHandler = (credentials) => {
 		//Register here
+		console.log(credentials);
 		Axios.post(`${URL}/auth/register`, credentials)
 			.then((res) => {
 				console.log(res.data);
@@ -78,7 +83,8 @@ class App extends Component {
 				});
 			})
 			.catch((err) => {
-				// console.log(err);
+				console.log(err);
+				console.log(err.res);
 				this.setState({
 					isAuth : false
 				});
@@ -100,25 +106,32 @@ class App extends Component {
 	}
 	render() {
 		let { isAuth, user, errorMessage } = this.state;
+		console.log(this.state.cart);
 		return (
 			<div>
 				<Router>
+					{/* <Navigation user={user} /> */}
 					<Navigation user={user} logout={this.logoutHandler} />
 					{errorMessage && <Alert>{errorMessage}</Alert>}
 					{/* the error messages are the error we wrote in the api files */}
 					<Switch>
 						{/* allow user to view items on page without logging in */}
 						{/* if no need to pass data, can use component */}
-						<Route exact path="/" component={Home} />
+						{/* <Route exact path="/" component={Home} /> */}
 						{/* if need to pass data e.g.props, use render */}
-						{/* <Route path="/" exact render={() => <Home items={this.state.items} />} /> */}
+						<Route path="/" exact render={() => <Home items={this.state.items} />} />
 						{/*tbc if shopper and customer are using the same pages*/}
 						{/* exact so that item/add wont confuse with the item/:id  */}
 						<Route path="/item/add" exact render={() => <AddItem />} />
-
-						<PrivateRoute exact path="/cart" isAuth={isAuth} render={() => <Cart />} />
-						<PrivateRoute exact path="/order" isAuth={isAuth} render={() => <Order />} />
-						<Route path="/register" exact render={() => <Register register={this.registerHandler} />} />
+						<Route exact path="/cart" render={() => <Cart cart={this.state.cart} />} />
+						{/* <PrivateRoute exact path="/cart" isAuth={isAuth} render={() => <Cart />} /> */}
+						<Route exact path="/order" render={() => <Order orders={this.state.orders} />} />
+						{/* <PrivateRoute exact path="/order" isAuth={isAuth} render={() => <Order />} /> */}
+						<Route
+							path="/register"
+							exact
+							render={() => (isAuth ? <Redirect to="/" /> : <Register register={this.registerHandler} />)}
+						/>
 						{/* check if user is auth, if yes redirect to / */}
 						<Route
 							path="/login"
