@@ -1,5 +1,6 @@
 //to lock the routes, so that only the user is logged in can access
 const jwt = require('jsonwebtoken');
+//to be used in auth.route.js
 
 //next just means continue
 module.exports = (req, res, next) => {

@@ -11,6 +11,7 @@ export default class Login extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 	loginHandler = () => {
+		console.log(this.state);
 		//login here
 		this.props.login(this.state);
 	};

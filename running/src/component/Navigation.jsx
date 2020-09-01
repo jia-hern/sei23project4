@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function Navigation({ user, logout }) {
+function Navigation({ user, login, logout }) {
 	return (
 		<Navbar bg="dark" expand="lg" variant="dark">
 			<Navbar.Brand href="/">My Shop</Navbar.Brand>
@@ -35,7 +35,7 @@ function Navigation({ user, logout }) {
 						</React.Fragment>
 					) : (
 						<React.Fragment>
-							<Link to="/login" className="nav-link">
+							<Link to="/login" onClick={login} className="nav-link">
 								Login
 							</Link>
 							<Link to="/register" className="nav-link">

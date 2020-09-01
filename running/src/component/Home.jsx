@@ -43,7 +43,7 @@ export default class Home extends Component {
 				<Container fluid>
 					<Row>
 						{this.props.items.map((item) => (
-							<Col key={item._id} md="3" className="mb-3">
+							<Col key={item._id} md="4" className="mb-3">
 								<Card>
 									<Card.Img variant="top" src={item.picture} alt={item.name} />
 									<Card.Body>

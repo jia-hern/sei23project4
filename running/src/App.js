@@ -59,9 +59,11 @@ class App extends Component {
 			});
 	};
 	loginHandler = (credentials) => {
+		console.log(credentials);
 		//login here
 		Axios.post(`${URL}/auth/login`, credentials)
 			.then((res) => {
+				console.log('Logged in');
 				console.log(res.data);
 
 				// take local storage and save the token
@@ -70,6 +72,8 @@ class App extends Component {
 				this.getUserProfile(res.data.token);
 			})
 			.catch((err) => {
+				console.log('not Logged in');
+				console.log(err.response.data);
 				console.log(err);
 				// for safety, setAuth to false
 				this.setState({ isAuth: false, errorMessage: err.response.data.message });
@@ -165,7 +169,7 @@ class App extends Component {
 			<div>
 				<Router>
 					{/* <Navigation user={user} /> */}
-					<Navigation user={user} logout={this.logoutHandler} />
+					<Navigation user={user} logout={this.logoutHandeler} login={this.loginHandler} />
 					{errorMessage && <Alert>{errorMessage}</Alert>}
 					{/* the error messages are the error we wrote in the api files */}
 					<Switch>

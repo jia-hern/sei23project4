@@ -23,7 +23,7 @@ router.post('/add', async (req, res) => {
 		console.log(item);
 		let savedItem = await item.save();
 		if (savedItem) {
-			res.redirect('/items');
+			res.status(201).json({ savedItem });
 		}
 	} catch (error) {
 		console.log(error);

@@ -47,7 +47,7 @@ router.post('/:id/add', async (req, res) => {
        check if the cart has a createdBy same as the login user
         */
 		let checkedCart = await Cart.exists({
-			createdBy : req.user._id
+			createdBy : req.user.id
 		});
 		console.log(checkedCart);
 		/* 
@@ -58,7 +58,7 @@ router.post('/:id/add', async (req, res) => {
         looks into the collection for the cart with the user id
         */
 			let cart = await Cart.findOne({
-				createdBy : req.user._id
+				createdBy : req.user.id
 			});
 			/* 
         Push the new item into the existing cart
@@ -100,8 +100,11 @@ router.post('/:id/add', async (req, res) => {
         */
 			let savedCart = await cart.save();
 			if (savedCart) {
+				let finalCart = await Cart.findOne({
+					createdBy : req.user.id
+				}).populate('items.item');
 				console.log('The cart contains: ', savedCart);
-				res.status(201).json({ message: 'added to cart', cart: savedCart });
+				res.status(201).json({ message: 'added to cart', cart: finalCart });
 			}
 		} else {
 			/* 
@@ -114,12 +117,15 @@ router.post('/:id/add', async (req, res) => {
 						quantity : 1
 					}
 				],
-				createdBy : req.user._id
+				createdBy : req.user.id
 			};
 			let cart = new Cart(thing);
 			let savedCart = await cart.save();
 			if (savedCart) {
-				res.status(201).json({ message: 'added to cart', cart: savedCart });
+				let finalCart = await Cart.findOne({
+					createdBy : req.user.id
+				}).populate('items.item');
+				res.status(201).json({ message: 'added to cart', cart: finalCart });
 			}
 		}
 	} catch (error) {
@@ -137,12 +143,12 @@ router.post('/checkout', async (req, res) => {
 
 		//check if cart is there(returns T/F)
 		let checkedCart = await Cart.exists({
-			createdBy : req.user._id
+			createdBy : req.user.id
 		});
 		console.log(checkedCart);
 		if (checkedCart) {
 			let cart = await Cart.findOne({
-				createdBy : req.user._id
+				createdBy : req.user.id
 			});
 			console.log('cart', cart);
 			let newOrder = { items: cart.items, createdBy: cart.createdBy };
@@ -150,7 +156,8 @@ router.post('/checkout', async (req, res) => {
 			let savedOrder = await order.save();
 			if (savedOrder) {
 				let cartToDelete = await Cart.findByIdAndDelete(cart._id);
-				res.redirect('/');
+				// res.redirect('/');
+				res.status(201).json({ message: 'cart has been shifted to order', order: savedOrder });
 			}
 		}
 	} catch (error) {

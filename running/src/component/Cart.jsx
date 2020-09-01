@@ -23,24 +23,30 @@ export default class Cart extends Component {
 	// 			console.log(err);
 	// 		});
 	// };
+	componentDidMount() {
+		this.props.fetchItems();
+	}
 	render() {
-		console.log(this.props.cart);
+		console.log('this is cart.jsx', this.props.cart);
 		return (
 			<div>
 				<h1>Cart</h1>
 				<Container fluid>
-					<Row>
-						{this.props.cart.map((item) => (
-							<Col key={item._id} md="3" className="mb-3">
-								<Card>
-									<Card.Img variant="top" src={item.item.picture} />
-									<Card.Body>
-										<div>{item.item.name}</div>
-									</Card.Body>
-								</Card>
-							</Col>
-						))}
-					</Row>
+					{this.props.cart.map((item) => (
+						<Row key={item._id} className="mb-3">
+							<Card>
+								<Card.Img variant="top" src={item.item.picture} />
+								<Card.Body>
+									<div>
+										<span>{item.item.name}</span>
+										<span>Price: {item.item.price}</span>
+										<span>Quantity: {item.quantity}</span>
+									</div>
+								</Card.Body>
+							</Card>
+						</Row>
+					))}
+					<Button>Checkout</Button>
 				</Container>
 			</div>
 		);

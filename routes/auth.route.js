@@ -56,6 +56,9 @@ router.post('/auth/login', async (req, res) => {
 		}
 		//compare keyed in password with password in db
 		const isMatch = await bcrypt.compare(password, user.password);
+		console.log('isMatch', isMatch);
+		console.log('brcpyt password', await bcrypt.hash(password, 10));
+		console.log('user.password', user.password);
 		if (!isMatch) {
 			return res.status(400).json({ messsage: 'Aiyo!! you tryna hack me wah?' });
 		}

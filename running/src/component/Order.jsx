@@ -29,17 +29,31 @@ export default class Order extends Component {
 			<div>
 				<h1>Orders</h1>
 				<Container fluid>
+					{/* items     : [
+						{
+							item     : {
+								type : mongoose.Schema.Types.ObjectId,
+								ref  : 'Item'
+								name        : String,
+								description : String,
+								picture     : String,
+								quantity    : Number,
+								price       : Number
+							},
+							quantity : Number
+						}
+					], */}
 					<Table>
 						{/* {this.props.orders.map((order, index) => (
 							<Row key={order._id} md="3" className="mb-3">
 								<Card>
 									<thead>
-									<th>Order : {index + 1}</th>
-									<tr>
-										<th>Items</th>
-										<th>Quantity</th>
-										<th>Price</th>
-									</tr>
+										<th>Order : {index + 1}</th>
+										<tr>
+											<th>Items</th>
+											<th>Quantity</th>
+											<th>Price</th>
+										</tr>
 									</thead>
 									<Card.Body>
 										{order.items.forEach((item) => {
