@@ -18,6 +18,7 @@ class App extends Component {
 	mounted = true;
 	state = {
 		items        : [],
+		carts        : [],
 		cart         : [],
 		orders       : [],
 		errorMessage : null,
@@ -44,8 +45,12 @@ class App extends Component {
 			}
 		})
 			.then((res) => {
-				console.log(res.data);
-				this.setState({ isAuth: true, user: res.data.user });
+				console.log('from user data: ', res.data);
+				this.setState({
+					isAuth : true,
+					user   : res.data.user,
+					carts  : res.data.items
+				});
 			})
 			.catch((err) => {
 				console.log(err);
@@ -93,23 +98,27 @@ class App extends Component {
 	addItem = (item) => {
 		let token = localStorage.getItem('token');
 		if (token) {
-			Axios.post(`${URL}/cart/${item._id}/add`, {
-				headers : {
-					'x-auth-token' : token
+			Axios.post(
+				`${URL}/cart/${item._id}/add`,
+				{},
+				{
+					headers : {
+						'x-auth-token' : token
+					}
 				}
-			})
+			)
 				.then((res) => {
+					console.log('response: ', res);
 					console.log(item);
 					let tempState = { ...this.state }; //copy of state
-					tempState.cart.push(item);
-					console.log(tempState);
+					tempState.carts = res.data.cart.items;
+					console.log('temp cart', tempState);
 					// this.state.cart.push(item);
 					//set state
 					this.setState(tempState);
-					console.log(this.state);
 				})
 				.catch((err) => {
-					console.log(err.response.data);
+					// console.log(err.response.data);
 					console.log(err);
 				});
 		} else {
@@ -151,7 +160,7 @@ class App extends Component {
 	}
 	render() {
 		let { isAuth, user, errorMessage } = this.state;
-		console.log(this.state.cart);
+		console.log('current  cart:', this.state);
 		return (
 			<div>
 				<Router>
@@ -182,7 +191,7 @@ class App extends Component {
 						<Route
 							exact
 							path="/cart"
-							render={() => <Cart cart={this.state.cart} fetchItems={this.fetchItems} />}
+							render={() => <Cart cart={this.state.carts} fetchItems={this.fetchItems} />}
 						/>
 						{/* <PrivateRoute exact path="/cart" isAuth={isAuth} render={() => <Cart />} /> */}
 						<Route exact path="/order" render={() => <Order orders={this.state.orders} />} />

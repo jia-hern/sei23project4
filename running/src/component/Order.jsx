@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Card, Col, Button } from 'react-bootstrap';
+import { Container, Row, Card, Col, Button, Table } from 'react-bootstrap';
 import Axios from 'axios';
 
 const URL = process.env.REACT_APP_URL;
@@ -29,23 +29,32 @@ export default class Order extends Component {
 			<div>
 				<h1>Orders</h1>
 				<Container fluid>
-					<Row>
-						{this.props.orders.map((item) => (
-							<Col key={item._id} md="3" className="mb-3">
+					<Table>
+						{/* {this.props.orders.map((order, index) => (
+							<Row key={order._id} md="3" className="mb-3">
 								<Card>
-									<Card.Img variant="top" src={item.picture} />
+									<thead>
+									<th>Order : {index + 1}</th>
+									<tr>
+										<th>Items</th>
+										<th>Quantity</th>
+										<th>Price</th>
+									</tr>
+									</thead>
 									<Card.Body>
-										{item.name}
-										<div>
-											<Button onClick={this.deleteItem} variant="danger" id={item._id}>
-												Delete
-											</Button>
-										</div>
+										{order.items.forEach((item) => {
+											<tr>
+												<td>{item.item.name}</td>
+												<td>{item.quantity}</td>
+												<td>{item.item.price}</td>
+											</tr>;
+										})}
 									</Card.Body>
 								</Card>
-							</Col>
-						))}
-					</Row>
+							</Row>
+						))} */}
+					</Table>
+					<Row />
 				</Container>
 			</div>
 		);

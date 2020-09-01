@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
 			createdBy : req.user._id
 		}).populate('items.item');
 		res.render('orders/index', { orders });
+		// res.status(200)
 	} catch (err) {
 		console.log(err);
 	}

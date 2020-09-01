@@ -29,7 +29,7 @@ function Navigation({ user, logout }) {
 							<Nav.Link href="#user">
 								{user.firstname} {user.lastname}
 							</Nav.Link>
-							<Link to="/logout" onClick={logout} className="nav-link">
+							<Link to="/auth/logout" onClick={logout} className="nav-link">
 								Logout
 							</Link>
 						</React.Fragment>

@@ -32,12 +32,6 @@ export default class Home extends Component {
 	// 		this.state.cart.push(item);
 	// 	});
 	// };
-	deleteItem = (e) => {
-		console.log(e.target.id);
-		Axios.delete(`${URL}/items/${e.target.id}`).then((res) => {
-			this.fetchItems();
-		});
-	};
 	// console.log(this.props.items);
 	componentDidMount() {
 		this.props.fetchItems();
@@ -51,15 +45,20 @@ export default class Home extends Component {
 						{this.props.items.map((item) => (
 							<Col key={item._id} md="3" className="mb-3">
 								<Card>
-									<Card.Img variant="top" src={item.picture} />
+									<Card.Img variant="top" src={item.picture} alt={item.name} />
 									<Card.Body>
-										{item.name}
-										<Button onClick={() => this.props.addItem(item)} id={item._id}>
-											Add to Cart
-										</Button>
 										<div>
-											<Button onClick={this.deleteItem} variant="danger" id={item._id}>
-												Delete
+											<h2>{item.name}</h2>
+											<div>Description: {item.description} </div>
+											<div>Quantity: {item.quantity}</div>
+											<div>Price: {item.price} </div>
+
+											<Button
+												className="d-flex justify-content-center align-self-center"
+												onClick={() => this.props.addItem(item)}
+												id={item._id}
+											>
+												Add to Cart
 											</Button>
 										</div>
 									</Card.Body>

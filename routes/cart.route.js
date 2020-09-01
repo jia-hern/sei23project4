@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 		} else {
 			//compares to check that all the items that is created by this user
 			let items = await Cart.findOne({ createdBy: req.user._id }).populate('items.item');
-			// console.log(items);
+			console.log(items);
 			let total = 0;
 			// if there are items in the cart then compute total
 			if (items) {
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 			if (items) {
 				/* if there are items in the cart display that */
 				// res.render('cart/index', { items: items['items'], total });
-				res.status(201).send({ cart, items: items['item'], total });
+				res.status(201).send({ cart, items: items.items, total });
 			} else {
 				/* return an empty array if there is nothing */
 				// res.render('cart/index', { items: [], total });
@@ -100,8 +100,8 @@ router.post('/:id/add', async (req, res) => {
         */
 			let savedCart = await cart.save();
 			if (savedCart) {
-				res.redirect('/');
 				console.log('The cart contains: ', savedCart);
+				res.status(201).json({ message: 'added to cart', cart: savedCart });
 			}
 		} else {
 			/* 
@@ -119,7 +119,7 @@ router.post('/:id/add', async (req, res) => {
 			let cart = new Cart(thing);
 			let savedCart = await cart.save();
 			if (savedCart) {
-				res.redirect('/');
+				res.status(201).json({ message: 'added to cart', cart: savedCart });
 			}
 		}
 	} catch (error) {
