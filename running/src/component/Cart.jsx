@@ -33,7 +33,7 @@ export default class Cart extends Component {
 					{this.props.cart.items.map((lineitem) => (
 						<Row key={"item._id"} className="mb-3">
 							<Card>
-								<Card.Img variant="top" src={lineitem.item.picture} />
+								<Card.Img variant="top" src={lineitem.item.picture} style={{ height: "50%", width: "50%" }} />
 								<Card.Body>
 									<div>
 										<span> {lineitem.item.name}</span>
