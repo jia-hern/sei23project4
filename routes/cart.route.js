@@ -126,6 +126,7 @@ router.post('/checkout', async (req, res) => {
 				createdBy: req.user.id
 			});
 			console.log('cart', cart);
+			// assign a variable to the total and calculate it here
 			let newOrder = { items: cart.items, createdBy: cart.createdBy };
 			let order = new Order(newOrder);
 			let savedOrder = await order.save();

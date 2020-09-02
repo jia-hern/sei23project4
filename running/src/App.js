@@ -260,8 +260,7 @@ class App extends Component {
 							render={() => (
 								<Order
 									orders={this.state.orders}
-									fetchItems={this.fetchItems}
-									submitCart={this.submitCart}
+
 								/>
 							)}
 						/>

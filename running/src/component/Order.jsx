@@ -30,6 +30,16 @@ export default class Order extends Component {
 										</tr>
 									))
 								}
+								<tr>
+									<td colSpan="3">
+										Order total: {
+											order.items
+												.map(item => (item.item.price * item.quantity))
+												.reduce((a, b) => (a + b))
+
+										}
+									</td>
+								</tr>
 							</tbody>
 						</React.Fragment>
 					))}
