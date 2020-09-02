@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Row, Card, Col, Button } from 'react-bootstrap';
-import Axios from 'axios';
+import { Container, Row, Card, Button } from 'react-bootstrap';
 
-const URL = process.env.REACT_APP_URL;
 export default class Cart extends Component {
 	state = {
 		// cart : []
@@ -24,7 +22,7 @@ export default class Cart extends Component {
 	// 		});
 	// };
 	componentDidMount() {
-		this.props.fetchItems();
+		//this.props.fetchItems();
 	}
 	render() {
 		console.log('this is cart.jsx', this.props.cart);
@@ -32,21 +30,21 @@ export default class Cart extends Component {
 			<div>
 				<h1>Cart</h1>
 				<Container fluid>
-					{this.props.cart.map((item) => (
-						<Row key={item._id} className="mb-3">
+					{this.props.cart.items.map((lineitem) => (
+						<Row key={"item._id"} className="mb-3">
 							<Card>
-								<Card.Img variant="top" src={item.item.picture} />
+								<Card.Img variant="top" src={lineitem.item.picture} />
 								<Card.Body>
 									<div>
-										<span>{item.item.name}</span>
-										<span>Price: {item.item.price}</span>
-										<span>Quantity: {item.quantity}</span>
+										<span> {lineitem.item.name}</span>
+										<span>Price: {lineitem.item.price}</span>
+										<span>Quantity: {lineitem.quantity}</span>
 									</div>
 								</Card.Body>
 							</Card>
 						</Row>
 					))}
-					<Button>Checkout</Button>
+					<Button onClick={() => this.props.submitCart(this.props.cart)}>Checkout</Button>
 				</Container>
 			</div>
 		);

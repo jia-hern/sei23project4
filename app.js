@@ -64,7 +64,7 @@ app.use(express.json());
 // });
 app.use(cors()); //allows all requests from outside servers or apps
 
-app.use('/items', require('./routes/items.route'));
+app.use('/items', checkUser, require('./routes/items.route'));
 // app.use('/cart', require('./routes/cart.route'));
 app.use('/cart', checkUser, require('./routes/cart.route'));
 app.use('/orders', checkUser, require('./routes/orders.route'));

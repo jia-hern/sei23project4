@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Card, Col, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import Axios from 'axios';
+// import { Link } from 'react-router-dom';
+// import Axios from 'axios';
 // import Item from '../component/items/Item';
 
 const URL = process.env.REACT_APP_URL;

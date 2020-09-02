@@ -17,39 +17,78 @@ const URL = process.env.REACT_APP_URL;
 class App extends Component {
 	mounted = true;
 	state = {
-		items        : [],
-		carts        : [],
-		cart         : [],
-		orders       : [],
-		errorMessage : null,
-		isAuth       : false,
-		user         : null
+		items: [],
+		cart: {
+			items: []
+		},
+		orders: [{}
+			// {
+			// 	items: [
+			// 		{
+			// 			name: "something",
+			// 			quantity: 2,
+			// 			picture: "something",
+			// 			price: 2.3,
+			// 			description: "something descriptive"
+			// 		},
+			// 		{
+			// 			name: "something else",
+			// 			quantity: 1,
+			// 			picture: "something",
+			// 			price: 4.6,
+			// 			description: "something descriptive"
+			// 		}
+			// 	]
+			// },
+			// {
+			// 	items: [
+			// 		{
+			// 			name: "something",
+			// 			quantity: 2,
+			// 			picture: "something",
+			// 			price: 2,
+			// 			description: "something descriptive"
+			// 		},
+			// 		{
+			// 			name: "something else",
+			// 			quantity: 1,
+			// 			picture: "something",
+			// 			price: 36,
+			// 			description: "something descriptive"
+			// 		}
+			// 	]
+			// }
+		],
+		errorMessage: null,
+		isAuth: false,
+		user: null
 	};
+
 	logoutHandeler = (e) => {
 		e.preventDefault();
 		console.log('i logged out');
 		this.setState({
-			items        : [],
-			cart         : [],
-			orders       : [],
-			errorMessage : null,
-			isAuth       : false,
-			user         : null
+			items: [],
+			cart: { items: [] },
+			orders: [],
+			errorMessage: null,
+			isAuth: false,
+			user: null
 		});
 		localStorage.removeItem('token');
 	};
+
 	getUserProfile = (token) => {
 		Axios.get(`${URL}/auth/user`, {
-			headers : {
-				'x-auth-token' : token
+			headers: {
+				'x-auth-token': token
 			}
 		})
 			.then((res) => {
 				console.log('from user data: ', res.data);
 				this.setState({
-					isAuth : true,
-					user   : res.data.user,
-					carts  : res.data.items
+					isAuth: true,
+					user: res.data.user
 				});
 			})
 			.catch((err) => {
@@ -88,14 +127,14 @@ class App extends Component {
 
 				localStorage.setItem('token', res.data.token);
 				this.setState({
-					isAuth : true
+					isAuth: true
 				});
 			})
 			.catch((err) => {
 				console.log(err);
 				console.log(err.res);
 				this.setState({
-					isAuth : false
+					isAuth: false
 				});
 			});
 	};
@@ -106,20 +145,19 @@ class App extends Component {
 				`${URL}/cart/${item._id}/add`,
 				{},
 				{
-					headers : {
-						'x-auth-token' : token
+					headers: {
+						'x-auth-token': token
 					}
 				}
 			)
 				.then((res) => {
 					console.log('response: ', res);
-					console.log(item);
-					let tempState = { ...this.state }; //copy of state
-					tempState.carts = res.data.cart.items;
-					console.log('temp cart', tempState);
+					// let tempState = { ...this.state }; //copy of state
+					// tempState.cart = res.data.cart;
+					// console.log('temp cart', tempState);
 					// this.state.cart.push(item);
 					//set state
-					this.setState(tempState);
+					this.setState({ cart: res.data.cart });
 				})
 				.catch((err) => {
 					// console.log(err.response.data);
@@ -134,20 +172,41 @@ class App extends Component {
 		let token = localStorage.getItem('token');
 		Axios.get(`${URL}/items`, {
 			// as we saved the token under the header
-			headers : {
-				'x-auth-token' : token
+			headers: {
+				'x-auth-token': token
 			}
 		})
 			.then((res) => {
-				// console.log(res.data);
-				this.setState({ items: res.data.items });
-				this.setState({ cart: res.data.cart });
+				console.log("FETCHED", res.data);
+				this.setState({ items: res.data.items ? res.data.items : [] });
+				this.setState({ cart: res.data.cart ? res.data.cart : { items: [] } });
+				this.setState({ orders: res.data.orders ? res.data.orders : [] });
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	};
-	updateCart = () => {};
+
+	submitCart = (cart) => {
+		let token = localStorage.getItem('token');
+		// when i click this button, i want to submit cart. so the post url has to match the route that handles the change of cart to orders 
+		Axios.post(`${URL}/cart/checkout`, cart, {
+			headers: {
+				'x-auth-token': token
+			}
+		})
+			.then((res) => {
+				// this.setState({ cart: []})
+				console.log(res.data.order);
+				this.setState({
+					orders: [...this.state.orders, res.data.order],
+					cart: { items: [] }
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 	componentDidMount() {
 		// to tell the browser to remain logged in
 		let token = localStorage.getItem('token');
@@ -164,7 +223,7 @@ class App extends Component {
 	}
 	render() {
 		let { isAuth, user, errorMessage } = this.state;
-		console.log('current  cart:', this.state);
+		console.log('current state:', this.state);
 		return (
 			<div>
 				<Router>
@@ -195,10 +254,20 @@ class App extends Component {
 						<Route
 							exact
 							path="/cart"
-							render={() => <Cart cart={this.state.carts} fetchItems={this.fetchItems} />}
+							render={() => <Cart cart={this.state.cart} submitCart={this.submitCart} />}
 						/>
 						{/* <PrivateRoute exact path="/cart" isAuth={isAuth} render={() => <Cart />} /> */}
-						<Route exact path="/order" render={() => <Order orders={this.state.orders} />} />
+						<Route
+							exact
+							path="/order"
+							render={() => (
+								<Order
+									orders={this.state.orders}
+									fetchItems={this.fetchItems}
+									submitCart={this.submitCart}
+								/>
+							)}
+						/>
 						{/* <PrivateRoute exact path="/order" isAuth={isAuth} render={() => <Order />} /> */}
 						<Route
 							path="/register"

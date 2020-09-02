@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const Item = require('../models/item.model');
+const Cart = require('../models/cart.model');
+const Order = require('../models/order.model');
 /* replace with react
 this route displays a form for adding a new item
 */
@@ -36,10 +38,20 @@ collection and prints it out on /items
 router.get('/', async (req, res) => {
 	try {
 		let items = await Item.find();
-		console.log(items);
+		let cart = await Cart.findOne({ createdBy: req.user.id });
+		if (cart) {
+			console.log("here got cart");
+			await cart.populate("items.item").execPopulate();
+			console.log(cart.items[0].name);
+		}
+
+		let order = await Order.find();
+		//console.log(items);
 		// res.render('items/index', { items });
 		res.status(200).json({
-			items
+			items,
+			cart,
+			order
 		});
 	} catch (error) {
 		console.log(error);
