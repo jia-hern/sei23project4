@@ -109,7 +109,6 @@ router.post('/:id/add', async (req, res) => {
 });
 
 router.post('/checkout', async (req, res) => {
-	console.log('checked out');
 	try {
 		/* first is to check in the cart for the current login user
 	next create a new order with info i got from the cart

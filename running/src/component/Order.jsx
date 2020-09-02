@@ -1,31 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Row, Card, Table } from 'react-bootstrap';
-import Axios from 'axios';
+import { Container, Table } from 'react-bootstrap';
 
-const URL = process.env.REACT_APP_URL;
 export default class Order extends Component {
-	state = {
-		// order : []
-	};
-	// fetchItems = () => {
-	// 	let token = localStorage.getItem('token');
-	// 	Axios.get(`${URL}/order`, {
-	// 		// as we saved the token under the header
-	// 		headers : {
-	// 			'x-auth-token' : token
-	// 		}
-	// 	})
-	// 		.then((res) => {
-	// 			console.log(res.data);
-	// 			this.setState({ order: res.data.order });
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// };
-	componentDidMount() {
-		//this.props.fetchItems();
-	}
 	render() {
 		console.log('this is order.jsx', this.props.orders);
 		return (

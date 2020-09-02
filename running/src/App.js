@@ -21,44 +21,7 @@ class App extends Component {
 		cart: {
 			items: []
 		},
-		orders: [{}
-			// {
-			// 	items: [
-			// 		{
-			// 			name: "something",
-			// 			quantity: 2,
-			// 			picture: "something",
-			// 			price: 2.3,
-			// 			description: "something descriptive"
-			// 		},
-			// 		{
-			// 			name: "something else",
-			// 			quantity: 1,
-			// 			picture: "something",
-			// 			price: 4.6,
-			// 			description: "something descriptive"
-			// 		}
-			// 	]
-			// },
-			// {
-			// 	items: [
-			// 		{
-			// 			name: "something",
-			// 			quantity: 2,
-			// 			picture: "something",
-			// 			price: 2,
-			// 			description: "something descriptive"
-			// 		},
-			// 		{
-			// 			name: "something else",
-			// 			quantity: 1,
-			// 			picture: "something",
-			// 			price: 36,
-			// 			description: "something descriptive"
-			// 		}
-			// 	]
-			// }
-		],
+		orders: [],
 		errorMessage: null,
 		isAuth: false,
 		user: null
@@ -207,6 +170,7 @@ class App extends Component {
 				console.log(err);
 			});
 	};
+
 	componentDidMount() {
 		// to tell the browser to remain logged in
 		let token = localStorage.getItem('token');

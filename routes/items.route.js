@@ -41,17 +41,19 @@ router.get('/', async (req, res) => {
 		let cart = await Cart.findOne({ createdBy: req.user.id });
 		if (cart) {
 			console.log("here got cart");
-			await cart.populate("items.item").execPopulate();
+			await cart.populate("items.item");
 			console.log(cart.items[0].name);
 		}
 
-		let order = await Order.find();
-		//console.log(items);
-		// res.render('items/index', { items });
+		let orders = await Order.find().populate("items.item");
+		console.log("===================================");
+		console.log(orders);
+		console.log("===================================");
+
 		res.status(200).json({
 			items,
 			cart,
-			order
+			orders
 		});
 	} catch (error) {
 		console.log(error);

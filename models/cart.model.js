@@ -11,7 +11,6 @@ var cartSchema = new mongoose.Schema(
 				quantity: Number
 			}
 		],
-
 		createdBy: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'

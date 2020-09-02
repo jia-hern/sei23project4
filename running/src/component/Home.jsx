@@ -4,7 +4,6 @@ import { Container, Row, Card, Col, Button } from 'react-bootstrap';
 // import Axios from 'axios';
 // import Item from '../component/items/Item';
 
-const URL = process.env.REACT_APP_URL;
 export default class Home extends Component {
 	state = {
 		// items : [],

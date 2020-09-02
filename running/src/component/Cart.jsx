@@ -2,28 +2,11 @@ import React, { Component } from 'react';
 import { Container, Row, Card, Button } from 'react-bootstrap';
 
 export default class Cart extends Component {
-	state = {
-		// cart : []
-	};
-	// fetchCartItems = () => {
-	// 	let token = localStorage.getItem('token');
-	// 	Axios.get(`${URL}/cart`, {
-	// 		// as we saved the token under the header
-	// 		headers : {
-	// 			'x-auth-token' : token
-	// 		}
-	// 	})
-	// 		.then((res) => {
-	// 			console.log(res.data);
-	// 			this.setState({ cart: res.data.cart });
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// };
-	componentDidMount() {
-		//this.props.fetchItems();
+	submitCart = (cart) => {
+		this.props.submitCart(cart);
+		console.log(cart);
 	}
+
 	render() {
 		console.log('this is cart.jsx', this.props.cart);
 		return (
@@ -44,7 +27,7 @@ export default class Cart extends Component {
 							</Card>
 						</Row>
 					))}
-					<Button onClick={() => this.props.submitCart(this.props.cart)}>Checkout</Button>
+					<Button onClick={() => this.submitCart(this.props.cart)}>Checkout</Button>
 				</Container>
 			</div>
 		);
