@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Row, Card, Button } from 'react-bootstrap';
 
+
 export default class Cart extends Component {
 	submitCart = (cart) => {
 		this.props.submitCart(cart);
 		console.log(cart);
 	}
-
+	componentDidMount() {
+		this.props.fetchItems();
+	}
 	render() {
 		console.log('this is cart.jsx', this.props.cart);
 		return (
@@ -27,6 +30,7 @@ export default class Cart extends Component {
 							</Card>
 						</Row>
 					))}
+					{/* <div>Total: {total}</div> */}
 					<Button onClick={() => this.submitCart(this.props.cart)}>Checkout</Button>
 				</Container>
 			</div>

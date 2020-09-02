@@ -12,9 +12,6 @@ function Navigation({ user, login, logout }) {
 					<Link className="nav-link" to="/">
 						Home
 					</Link>
-					<Link className="nav-link" to="/item/add">
-						Add item
-					</Link>
 					<Link className="nav-link" to="/cart">
 						Cart
 					</Link>
@@ -34,15 +31,15 @@ function Navigation({ user, login, logout }) {
 							</Link>
 						</React.Fragment>
 					) : (
-						<React.Fragment>
-							<Link to="/login" onClick={login} className="nav-link">
-								Login
+							<React.Fragment>
+								<Link to="/login" onClick={login} className="nav-link">
+									Login
 							</Link>
-							<Link to="/register" className="nav-link">
-								Register
+								<Link to="/register" className="nav-link">
+									Register
 							</Link>
-						</React.Fragment>
-					)}
+							</React.Fragment>
+						)}
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

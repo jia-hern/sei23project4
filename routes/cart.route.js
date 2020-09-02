@@ -130,6 +130,8 @@ router.post('/checkout', async (req, res) => {
 			let order = new Order(newOrder);
 			let savedOrder = await order.save();
 			if (savedOrder) {
+				await savedOrder.populate("items.item").execPopulate();
+				console.log(savedOrder);
 				let cartToDelete = await Cart.findByIdAndDelete(cart._id);
 				// res.redirect('/');
 				res.status(201).json({ message: 'cart has been shifted to order', order: savedOrder });
@@ -139,4 +141,27 @@ router.post('/checkout', async (req, res) => {
 		console.log(error);
 	}
 });
+
+/* tabulate total price of cart */
+// router.get('/', async (req, res) => {
+// 	try {
+// 		let cart = await Cart.findOne({ createdBy: req.user.id });
+// 		if (cart) {
+// 			await cart.populate("items.item").execPopulate();
+// 		}
+// 		let total = 0;
+// 		// if there are items in the cart then compute total
+// 		if (cart) {
+// 			cart.items.forEach((el) => {
+// 				total += el.item.price * el.quantity;
+// 			});
+// 		}
+// 		console.log("Total of cart in cart.jsx is ", total)
+// 		res.status(200).json({
+// 			total,
+// 		});
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// })
 module.exports = router;

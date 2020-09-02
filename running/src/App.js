@@ -13,6 +13,11 @@ import Order from './component/Order';
 import Register from './component/auth/Register';
 import Login from './component/auth/Login';
 
+import { loadStripe } from '@stripe/stripe-js';
+// recreating the `Stripe` object on every render
+const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
+const stripePromise = loadStripe(STRIPE_API_KEY);
+
 const URL = process.env.REACT_APP_URL;
 class App extends Component {
 	mounted = true;
@@ -151,6 +156,7 @@ class App extends Component {
 	};
 
 	submitCart = (cart) => {
+		console.log(cart);
 		let token = localStorage.getItem('token');
 		// when i click this button, i want to submit cart. so the post url has to match the route that handles the change of cart to orders 
 		Axios.post(`${URL}/cart/checkout`, cart, {
@@ -169,6 +175,34 @@ class App extends Component {
 			.catch((err) => {
 				console.log(err);
 			});
+
+		//1.how to merge async (req,res) with the cart on top
+		//2.duplicate cart with total (without any delete/edit buttons ->oh my i forgot add these)
+
+		// app.post("/create-checkout-session", async (req, res) => {
+		// 	const session = await stripe.checkout.sessions.create({
+		// 	  payment_method_types: ["card"],
+		// 	  line_items: [
+		// 		{
+		// 		  price_data: {
+		// 			currency: "usd",
+		// 			product_data: {
+		// 			  name: "T-shirt",
+		// 			},
+		// 			unit_amount: 2000,
+		// 		  },
+		// 		  quantity: 1,
+		// 		},
+		// 	  ],
+		// 	  mode: "payment",
+		// i created a success.html page too, i wanted to use it too >_> 
+		// but how to go there and have a button to go back to home
+		// 	  success_url: `${URL}/orders`,
+		// 	  cancel_url: `${URL}`,,
+		// 	});
+
+		// 	res.json({ id: session.id });
+		//   });
 	};
 
 	componentDidMount() {
@@ -214,11 +248,10 @@ class App extends Component {
 						/>
 						{/*tbc if shopper and customer are using the same pages*/}
 						{/* exact so that item/add wont confuse with the item/:id  */}
-						<Route path="/item/add" exact render={() => <AddItem />} />
 						<Route
 							exact
 							path="/cart"
-							render={() => <Cart cart={this.state.cart} submitCart={this.submitCart} />}
+							render={() => <Cart cart={this.state.cart} fetchItems={this.fetchItems} submitCart={this.submitCart} />}
 						/>
 						{/* <PrivateRoute exact path="/cart" isAuth={isAuth} render={() => <Cart />} /> */}
 						<Route
@@ -259,3 +292,5 @@ export default App;
 // /register
 
 // /login
+
+//https://medium.com/better-programming/creating-a-multi-filter-function-to-filter-out-multiple-attributes-javascript-react-rails-5aad8e272142

@@ -8,29 +8,7 @@ this route displays a form for adding a new item
 // router.get('/new', (req, res) => {
 // 	res.render('items/new');
 // });
-/* 
-this route handles the form submission  from item/add route
-*/
-router.post('/add', async (req, res) => {
-	//so that do not need to type req.body.name, req.body.price ...
-	let { name, description, picture, quantity, price } = req.body;
-	try {
-		let item = new Item({
-			name,
-			description,
-			picture,
-			quantity,
-			price
-		});
-		console.log(item);
-		let savedItem = await item.save();
-		if (savedItem) {
-			res.status(201).json({ savedItem });
-		}
-	} catch (error) {
-		console.log(error);
-	}
-});
+
 /* 
 this goes through all the items in the items 
 collection and prints it out on /items
@@ -44,15 +22,23 @@ router.get('/', async (req, res) => {
 			await cart.populate("items.item").execPopulate();
 			console.log(cart.items[0].name);
 		}
+		let total = 0;
+		// if there are items in the cart then compute total
+		if (cart) {
+			cart.items.forEach((el) => {
+				total += el.item.price * el.quantity;
+			});
+		}
 
 		let orders = await Order.find().populate("items.item");
 		console.log("===================================");
 		console.log(orders);
 		console.log("===================================");
-
+		console.log("Total of cart is ", total)
 		res.status(200).json({
 			items,
 			cart,
+			total,
 			orders
 		});
 	} catch (error) {

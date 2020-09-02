@@ -5,33 +5,6 @@ import { Container, Row, Card, Col, Button } from 'react-bootstrap';
 // import Item from '../component/items/Item';
 
 export default class Home extends Component {
-	state = {
-		// items : [],
-		// cart  : []
-	};
-	// fetchItems = () => {
-	// 	let token = localStorage.getItem('token');
-	// 	Axios.get(`${URL}/items`, {
-	// 		// as we saved the token under the header
-	// 		headers : {
-	// 			'x-auth-token' : token
-	// 		}
-	// 	})
-	// 		.then((res) => {
-	// 			// console.log(res.data);
-	// 			this.setState({ items: res.data.items });
-	// 			this.setState({ cart: res.data.cart });
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// };
-	// addItem = (item) => {
-	// 	Axios.post(`${URL}/cart`).then((res) => {
-	// 		this.state.cart.push(item);
-	// 	});
-	// };
-	// console.log(this.props.items);
 	componentDidMount() {
 		this.props.fetchItems();
 	}
