@@ -4,6 +4,25 @@ const Order = require('../models/order.model');
 const Item = require('../models/item.model');
 const { exists } = require('../models/cart.model');
 
+
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
+
+
+//for stripe
+const calculateCartAmount = 0
+// const calculateOrderAmount = async (items) => {
+// 	// Replace this constant with a calculation of the order's amount
+// 	// Calculate the order total on the server to prevent
+// 	// people from directly manipulating the amount on the client
+// 	await savedOrder.populate("items.item").execPopulate();
+// 	return (
+// 		savedOrder.items
+// 			.map(item => (item.item.price * item.quantity))
+// 			.reduce((a, b) => (a + b))
+// 	);
+// };
+
 /* get all items from cart from current user */
 router.post('/:id/add', async (req, res) => {
 	console.log("logged in user========================")
@@ -102,6 +121,10 @@ router.post('/:id/add', async (req, res) => {
 				}).populate('items.item');
 				res.status(201).json({ message: 'added to cart', cart: finalCart });
 			}
+			//calculate the total in cart
+			calculateCartAmount = finalCart.items
+				.map(item => (item.item.price * item.quantity))
+				.reduce((a, b) => (a + b))
 		}
 	} catch (error) {
 		console.log(error);
@@ -137,9 +160,30 @@ router.post('/checkout', async (req, res) => {
 				// res.redirect('/');
 				res.status(201).json({ message: 'cart has been shifted to order', order: savedOrder });
 			}
+
+
 		}
 	} catch (error) {
 		console.log(error);
+	}
+});
+router.post("/create-payment-intent", async (req, res) => {
+	console.log("Reached the stripe payment")
+	const { items } = req.body;
+	try {
+		// Create a PaymentIntent with the order amount and currency
+		const paymentIntent = await stripe.paymentIntents.create({
+			amount: calculateCartAmount,
+			currency: "usd"
+		});
+		console.log("i am here")
+		res.send({
+			clientSecret: paymentIntent.client_secret
+		});
+
+
+	} catch (error) {
+		console.log(error)
 	}
 });
 

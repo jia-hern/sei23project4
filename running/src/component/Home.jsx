@@ -5,16 +5,41 @@ import { Container, Row, Card, Col, Button } from 'react-bootstrap';
 // import Item from '../component/items/Item';
 
 export default class Home extends Component {
+	// state = {
+	// 	 filtered: [],
+	// 	category: '',
+	// };
+	// setFilterCategory = (filter) => {
+	// 	e.preventDefault();
+	// 	console.log('filtered based on the category:', filter);
+	// 	this.setState({
+	// 		category: e.target.value
+	// 	});
+	// };
+	// filterBasedOnCategory = () => {
+	// 	const regex = this.state.category.toLowerCase();
+	// 	let filtered = this.props.items.filter(item => {
+	// 		return item.category.toLowerCase().match(regex, 'g')
+	// 	}) 
+	//	this.setState({ filtered })
+	// }
 	componentDidMount() {
 		this.props.fetchItems();
 	}
 	render() {
 		return (
 			<div>
-				<h1>Home</h1>
+				<Row>
+					<h1>Home</h1>
+					<Button className="m-3" onClick={() => this.setFilterCategory('Vegetable')}>Vegetable</Button>
+					<Button className="m-3" onClick={() => this.setFilterCategory('Fruit')}>Fruit</Button>
+				</Row>
+
 				<Container fluid>
 					<Row>
 						{this.props.items.map((item) => (
+							// {this.state.filtered.map((item) => (
+							// if (this.state.category == item.category){
 							<Col key={item._id} md="4" className="mb-3">
 								<Card>
 									<Card.Img variant="top" src={item.picture} alt={item.name} />
@@ -36,6 +61,7 @@ export default class Home extends Component {
 									</Card.Body>
 								</Card>
 							</Col>
+							// }
 						))}
 					</Row>
 				</Container>

@@ -9,6 +9,8 @@ require('dotenv').config();
 // const expressLayouts = require('express-ejs-layouts');
 // const cookieParser = require('cookie-parser');
 // const MongoStore = require('connect-mongo')(session);
+
+
 const checkUser = require('./config/config');
 
 //to call my mongoose connections

@@ -25,8 +25,8 @@ router.post('/auth/register', async (req, res) => {
 		// res.status(201).json({ messsage: 'user registered successfully!' });
 		const payload = {
 			//create a token
-			user : {
-				id : user._id
+			user: {
+				id: user._id
 			}
 		};
 		console.log(payload);
@@ -65,8 +65,8 @@ router.post('/auth/login', async (req, res) => {
 		const payload = {
 			//    send this back to user
 			// dont send sensitive info here
-			user : {
-				id : user._id
+			user: {
+				id: user._id
 			}
 		};
 		jwt.sign(payload, 'seifewdaystogo', { expiresIn: 36000000 }, (err, token) => {
@@ -99,7 +99,7 @@ router.get('/auth/user', checkToken, async (req, res) => {
 			res.status(200).json({
 				user,
 				// cart,
-				items : items.items,
+				items: items.items,
 				total
 			});
 		} else {
@@ -108,14 +108,14 @@ router.get('/auth/user', checkToken, async (req, res) => {
 			res.status(200).send({
 				user,
 				// cart,
-				items : [],
+				items: [],
 				total
 			});
 		}
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
-			message : 'something is wrong!'
+			message: 'something is wrong!'
 		});
 	}
 });
@@ -131,7 +131,7 @@ router.get('/auth/logout', (request, response) => {
 	} catch (error) {
 		console.log('not logged out');
 		res.status(500).json({
-			message : "can't log out"
+			message: "can't log out"
 		});
 	}
 });
