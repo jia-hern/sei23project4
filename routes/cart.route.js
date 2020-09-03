@@ -7,7 +7,7 @@ const { exists } = require('../models/cart.model');
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
-
+// console.log(stripe)
 
 //for stripe
 const calculateCartAmount = 0
@@ -169,11 +169,11 @@ router.post('/checkout', async (req, res) => {
 });
 router.post("/create-payment-intent", async (req, res) => {
 	console.log("Reached the stripe payment")
-	const { items } = req.body;
+	const { items, total } = req.body;
 	try {
 		// Create a PaymentIntent with the order amount and currency
 		const paymentIntent = await stripe.paymentIntents.create({
-			amount: calculateCartAmount,
+			amount: parseFloat(total * 10),
 			currency: "usd"
 		});
 		console.log("i am here")
