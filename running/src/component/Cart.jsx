@@ -5,6 +5,7 @@ import CheckoutForm from './CheckoutForm';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
+import Success from './Success'
 
 export default class Cart extends Component {
 
@@ -41,7 +42,10 @@ export default class Cart extends Component {
 				.map(item => item.item.price * item.quantity)
 				.reduce((a, b) => a + b);
 		}
-
+		// we can render the success component instead of the actual checkout if the paymentstatus is true 
+		if (this.props.paymentStatus) {
+			return <Success />
+		}
 		return (
 			<div>
 				<h1>Cart</h1>
@@ -67,6 +71,7 @@ export default class Cart extends Component {
 					{/* <div>Total: {total}</div> */}
 					<Button onClick={this.isCheckouthandler}>Checkout Stripe</Button>
 					{/* <Button onClick={() => this.submitCart(this.props.cart)}>Checkout</Button> */}
+					{/* add in payment  */}
 					{this.state.isCheckouted && <Elements stripe={this.promise}><CheckoutForm paidStatus={this.isPaidHandler} cart={this.props.cart} total=
 						{totalPrice} paymentStatus={this.state.paymentStatus} /></Elements>}
 
