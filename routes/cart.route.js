@@ -7,21 +7,6 @@ const { exists } = require('../models/cart.model');
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
-// console.log(stripe)
-
-//for stripe
-const calculateCartAmount = 0
-// const calculateOrderAmount = async (items) => {
-// 	// Replace this constant with a calculation of the order's amount
-// 	// Calculate the order total on the server to prevent
-// 	// people from directly manipulating the amount on the client
-// 	await savedOrder.populate("items.item").execPopulate();
-// 	return (
-// 		savedOrder.items
-// 			.map(item => (item.item.price * item.quantity))
-// 			.reduce((a, b) => (a + b))
-// 	);
-// };
 
 /* get all items from cart from current user */
 router.post('/:id/add', async (req, res) => {
@@ -187,26 +172,13 @@ router.post("/create-payment-intent", async (req, res) => {
 	}
 });
 
-/* tabulate total price of cart */
-// router.get('/', async (req, res) => {
-// 	try {
-// 		let cart = await Cart.findOne({ createdBy: req.user.id });
-// 		if (cart) {
-// 			await cart.populate("items.item").execPopulate();
-// 		}
-// 		let total = 0;
-// 		// if there are items in the cart then compute total
-// 		if (cart) {
-// 			cart.items.forEach((el) => {
-// 				total += el.item.price * el.quantity;
-// 			});
-// 		}
-// 		console.log("Total of cart in cart.jsx is ", total)
-// 		res.status(200).json({
-// 			total,
-// 		});
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// })
+// i created a success.html page too, i wanted to use it too >_> 
+// but how to go there and have a button to go back to home
+// 	  success_url: `${URL}/orders`,
+// want to show user a flash message that payment didn't go through too
+// 	  cancel_url: `${URL}`,,
+// 	});
+
+// 	res.json({ id: session.id });
+//   });
 module.exports = router;
