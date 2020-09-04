@@ -7,22 +7,13 @@ import { Alert } from 'react-bootstrap';
 
 import Navigation from './component/Navigation';
 import Home from './component/Home';
-import AddItem from './component/items/AddItem';
 import Cart from './component/Cart';
 import Order from './component/Order';
 import Register from './component/auth/Register';
 import Login from './component/auth/Login';
+// import Success from './component/Success';
 // import CheckoutForm from './component/CheckoutForm';
 
-
-import { loadStripe } from '@stripe/stripe-js';
-// recreating the `Stripe` object on every render
-// const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
-// console.log("key is:", STRIPE_API_KEY)
-// Make sure to call loadStripe outside of a component’s render to avoid
-// recreating the Stripe object on every render.
-// loadStripe is initialized with your real test publishable API key.
-// const promise = loadStripe(STRIPE_API_KEY);
 
 const URL = process.env.REACT_APP_URL;
 class App extends Component {
@@ -185,35 +176,6 @@ class App extends Component {
 				console.log(err);
 			});
 	};
-	// confirmPayment = (e)
-	//1.how to merge async (req,res) with the cart on top
-	//2.duplicate cart with total (without any delete/edit buttons ->oh my i forgot add these)
-
-	// app.post("/create-checkout-session", async (req, res) => {
-	// 	const session = await stripe.checkout.sessions.create({
-	// 	  payment_method_types: ["card"],
-	// 	  line_items: [
-	// 		{
-	// 		  price_data: {
-	// 			currency: "usd",
-	// 			product_data: {
-	// 			  name: "T-shirt",
-	// 			},
-	// 			unit_amount: 2000,
-	// 		  },
-	// 		  quantity: 1,
-	// 		},
-	// 	  ],
-	// 	  mode: "payment",
-	// i created a success.html page too, i wanted to use it too >_> 
-	// but how to go there and have a button to go back to home
-	// 	  success_url: `${URL}/orders`,
-	// 	  cancel_url: `${URL}`,,
-	// 	});
-
-	// 	res.json({ id: session.id });
-	//   });
-
 
 	componentDidMount() {
 		// to tell the browser to remain logged in
@@ -261,7 +223,9 @@ class App extends Component {
 						<Route
 							exact
 							path="/cart"
-							render={() => <Cart cart={this.state.cart} fetchItems={this.fetchItems} submitCart={this.submitCart} />}
+							// paymentStatus ? render={() => (<Success/>)} 
+							// : render={() => <Cart cart={this.state.cart} fetchItems={this.fetchItems} submitCart={this.submitCart} paymentStatus={this.state.paymentStatus} />}
+							render={() => <Cart cart={this.state.cart} fetchItems={this.fetchItems} submitCart={this.submitCart} paymentStatus={this.state.paymentStatus} />}
 						/>
 						{/* <PrivateRoute exact path="/cart" isAuth={isAuth} render={() => <Cart />} /> */}
 						<Route
@@ -301,5 +265,3 @@ export default App;
 // /register
 
 // /login
-
-//https://medium.com/better-programming/creating-a-multi-filter-function-to-filter-out-multiple-attributes-javascript-react-rails-5aad8e272142

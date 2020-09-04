@@ -4,7 +4,7 @@ import CheckoutForm from './CheckoutForm';
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-// const promise = loadStripe("pk_test_51HL1QGJahd2R9hFkgg9kFxf5bQRKzAYFYJ1h2JDYpH89SnNxneqKVNIluhevTIjvYrb8ALUPF49V5U9wUb9e6rfR00hbCHyuU9")
+
 
 export default class Cart extends Component {
 
@@ -68,7 +68,7 @@ export default class Cart extends Component {
 					<Button onClick={this.isCheckouthandler}>Checkout Stripe</Button>
 					{/* <Button onClick={() => this.submitCart(this.props.cart)}>Checkout</Button> */}
 					{this.state.isCheckouted && <Elements stripe={this.promise}><CheckoutForm paidStatus={this.isPaidHandler} cart={this.props.cart} total=
-						{totalPrice} /></Elements>}
+						{totalPrice} paymentStatus={this.state.paymentStatus} /></Elements>}
 
 				</Container>
 			</div>

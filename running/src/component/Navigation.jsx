@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Navigation({ user, login, logout }) {
 	return (
 		<Navbar bg="dark" expand="lg" variant="dark">
-			<Navbar.Brand href="/">My Shop</Navbar.Brand>
+			<Navbar.Brand href="/">Shop that orders dont work :/</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="mr-auto">
