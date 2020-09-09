@@ -28,8 +28,8 @@ export default class Home extends Component {
 			<div>
 				<Row>
 					<h1>Home</h1>
-					<Button className="m-3" onClick={() => this.setFilterCategory('Vegetable')}>Vegetable</Button>
-					<Button className="m-3" onClick={() => this.setFilterCategory('Fruit')}>Fruit</Button>
+					{/* <Button className="m-3" onClick={() => this.setFilterCategory('Vegetable')}>Vegetable</Button>
+					<Button className="m-3" onClick={() => this.setFilterCategory('Fruit')}>Fruit</Button> */}
 				</Row>
 
 				<Container fluid>

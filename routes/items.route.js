@@ -2,17 +2,11 @@ const router = require('express').Router();
 const Item = require('../models/item.model');
 const Cart = require('../models/cart.model');
 const Order = require('../models/order.model');
-/* replace with react
-this route displays a form for adding a new item
-*/
-// router.get('/new', (req, res) => {
-// 	res.render('items/new');
-// });
-
-/* 
-this goes through all the items in the items 
-collection and prints it out on /items
-*/
+/*
+ @route GET /api/items/
+ @desc displays all items in the items collections
+ @access public - made private because need the req.user.id
+ */
 router.get('/', async (req, res) => {
 	try {
 		let items = await Item.find();

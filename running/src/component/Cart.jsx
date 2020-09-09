@@ -27,10 +27,10 @@ export default class Cart extends Component {
 		}
 
 	}
-	submitCart = (cart) => {
-		this.props.submitCart(cart);
-		console.log(cart);
-	}
+	// submitCart = (cart) => {
+	// 	this.props.submitCart(cart);
+	// 	console.log(cart);
+	// }
 	componentDidMount() {
 		this.props.fetchItems();
 	}
@@ -70,6 +70,13 @@ export default class Cart extends Component {
 					</h2>
 					{/* <div>Total: {total}</div> */}
 					<Button onClick={this.isCheckouthandler}>Checkout Stripe</Button>
+					<ol>
+						<div>Test cases for card:</div>
+						<li>Payment succeeds 4242 4242 4242 4242</li>
+						<li>Payment requires authentication 4000 0025 0000 3155</li>
+						<li>Payment is declined 4000 0000 0000 9995</li>
+					</ol>
+
 					{/* <Button onClick={() => this.submitCart(this.props.cart)}>Checkout</Button> */}
 					{/* add in payment  */}
 					{this.state.isCheckouted && <Elements stripe={this.promise}><CheckoutForm paidStatus={this.isPaidHandler} cart={this.props.cart} total=

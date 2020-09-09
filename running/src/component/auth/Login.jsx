@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Container, Form, Button } from 'react-bootstrap';
 
-// const URL = process.env.REACT_APP_URL;
 export default class Login extends Component {
 	state = {
-		phone    : '',
-		password : ''
+		phone: '',
+		password: ''
 	};
 	changeHandler = (e) => {
 		this.setState({ [e.target.name]: e.target.value });

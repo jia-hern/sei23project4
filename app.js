@@ -67,10 +67,8 @@ app.use(express.json());
 app.use(cors()); //allows all requests from outside servers or apps
 
 app.use('/api/items', checkUser, require('./routes/items.route'));
-// app.use('/cart', require('./routes/cart.route'));
 app.use('/api/cart', checkUser, require('./routes/cart.route'));
 app.use('/api/orders', checkUser, require('./routes/orders.route'));
-// app.use('/orders', checkUser, require('./routes/orders.route'));
 app.use('/api', require('./routes/auth.route'));
 
 app.get('/api', (req, res) => {
@@ -78,7 +76,7 @@ app.get('/api', (req, res) => {
 });
 
 
-//can go to localhost:5000 to see it in deployment! (after running npm start in root folder)
+//to load the react stuff under the running folder for production
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('running/build'));
 	app.get('/*', (req, res) => res.sendFile(path.resolve(__dirname, 'running', 'build', 'index.html')));

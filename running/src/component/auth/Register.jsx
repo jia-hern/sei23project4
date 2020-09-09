@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Row, Container, Form, Button } from 'react-bootstrap';
 
-// const URL = process.env.REACT_APP_URL;
 export default class Register extends Component {
 	state = {
-		firstname : '',
-		lastname  : '',
-		age       : '',
-		address   : '',
-		phone     : '',
-		password  : ''
+		firstname: '',
+		lastname: '',
+		age: '',
+		address: '',
+		phone: '',
+		password: ''
 	};
 	changeHandler = (e) => {
 		this.setState({ [e.target.name]: e.target.value });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 export default class Success extends Component {
     render() {
@@ -12,6 +13,7 @@ export default class Success extends Component {
                     If you have any questions, please email
                     <a href="yaypaymentworks@gmail.com">yaypaymentworks@gmail.com</a>.
                 </p>
+                <Link className="nav-link" to="/order">Go to orders</Link>
             </React.Fragment>
         )
     }

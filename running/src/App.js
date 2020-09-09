@@ -168,7 +168,9 @@ class App extends Component {
 				// this.setState({ cart: []})
 				console.log(res.data.order);
 				this.setState({
+					//update the orders to have a new order ontop of the current existing orders
 					orders: [...this.state.orders, res.data.order],
+					//clear the items in the cart
 					cart: { items: [] }
 				});
 			})
@@ -218,7 +220,6 @@ class App extends Component {
 								/>
 							)}
 						/>
-						{/*tbc if shopper and customer are using the same pages*/}
 						{/* exact so that item/add wont confuse with the item/:id  */}
 						<Route
 							exact

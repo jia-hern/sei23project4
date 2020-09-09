@@ -5,18 +5,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkToken = require('../config/config');
 /*
- @route GET api/auth/register
+ @route POST api/auth/register
  @desc register user
  @access public
  */
-// router.post('/register', async (req, res) => {
 router.post('/auth/register', async (req, res) => {
 	let { firstname, lastname, age, address, phone, password } = req.body;
 	console.log(req.body);
 	try {
 		console.log(req.body);
 		let user = new User({ firstname, lastname, age, address, phone });
-		// has password with 10 salt rounds before saving
+		// hash password with 10 salt rounds before saving
 		let hashPassword = await bcrypt.hash(password, 10);
 		user.password = hashPassword;
 		//save user
@@ -41,11 +40,10 @@ router.post('/auth/register', async (req, res) => {
 	}
 });
 /*
- @route GET api/auth/login
+ @route POST api/auth/login
  @desc login user
  @access public
  */
-// router.post('/login', async (req, res) => {
 router.post('/auth/login', async (req, res) => {
 	let { phone, password } = req.body;
 	// console.log(req.body);
@@ -78,7 +76,12 @@ router.post('/auth/login', async (req, res) => {
 		res.status(500).json({ message: 'hmm... dunno what happended man!' });
 	}
 });
-// router.get('/user', checkToken, async (req, res) => {
+/*
+ @route GET api/auth/user
+ @desc retrieve user cart w items inside and total / create new cart
+ @access private
+ */
+
 router.get('/auth/user', checkToken, async (req, res) => {
 	try {
 		//find current user
@@ -119,8 +122,11 @@ router.get('/auth/user', checkToken, async (req, res) => {
 		});
 	}
 });
-
-//--- Logout Route
+/*
+ @route POST api/auth/logout
+ @desc logout user
+ @access public
+ */
 router.get('/auth/logout', (request, response) => {
 	// request.logout(); //clear and break session
 	// request.flash('success', 'Have a pleasant day!');
