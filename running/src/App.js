@@ -136,21 +136,31 @@ class App extends Component {
 
 	fetchItems = () => {
 		let token = localStorage.getItem('token');
-		Axios.get(`${URL}/items`, {
-			// as we saved the token under the header
-			headers: {
-				'x-auth-token': token
-			}
-		})
-			.then((res) => {
-				console.log("FETCHED", res.data);
-				this.setState({ items: res.data.items ? res.data.items : [] });
-				this.setState({ cart: res.data.cart ? res.data.cart : { items: [] } });
-				this.setState({ orders: res.data.orders ? res.data.orders : [] });
+		//if user is logged in, use the token to set states of items,cart and orders
+		if (token) {
+			Axios.get(`${URL}/items`, {
+				// as we saved the token under the header
+				headers: {
+					'x-auth-token': token
+				}
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+				.then((res) => {
+					console.log("FETCHED", res.data);
+					this.setState({ items: res.data.items ? res.data.items : [] });
+					this.setState({ cart: res.data.cart ? res.data.cart : { items: [] } });
+					this.setState({ orders: res.data.orders ? res.data.orders : [] });
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+		//if user is not logged in, just load items 
+		else {
+			Axios.get(`${URL}/items`).then((res) => {
+				console.log("FETCHED ITEMS ONLY FOR VIEW", res.data);
+				this.setState({ items: res.data.items ? res.data.items : [] });
+			})
+		}
 	};
 
 	submitCart = (cart) => {

@@ -12,12 +12,16 @@ function Navigation({ user, login, logout }) {
 					<Link className="nav-link" to="/">
 						Home
 					</Link>
-					<Link className="nav-link" to="/cart">
-						Cart
-					</Link>
-					<Link className="nav-link" to="/order">
-						Order
-					</Link>
+					{user ? (
+						<React.Fragment>
+							<Link className="nav-link" to="/cart">
+								Cart
+							</Link>
+							<Link className="nav-link" to="/order">
+								Order
+							</Link>
+						</React.Fragment>
+					) : null}
 				</Nav>
 
 				<Nav>
